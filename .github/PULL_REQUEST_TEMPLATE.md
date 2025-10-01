@@ -1,8 +1,8 @@
 ## 📌 Pull Request Summary
 
-`A short description of the changes you're making.
+` A short description of the changes you're making.
 Example: 
-Fixed a bug where the food items can be deleted.`
+Fixed a bug where the food items can be deleted. `
 
 
 ## 🛠️ Type of Change
@@ -16,7 +16,8 @@ Please select options that are relevant to your pull request
 - [ ] 📄 Documentation update  
 - [ ] 🚀 Performance improvement  
 - [ ] 🔧 Other (please describe):
-
+- [ ] ✨ New Company Scraper
+      
 ## 🔗 Related Issue
 
 Closes #[issue-number]  
@@ -29,7 +30,7 @@ Closes #[issue-number]
 Please confirm the following before submitting:
 
 - [ ] I have **tested** my changes locally
-- [ ] I have run `npm run dev` or similar to check code style
+- [ ] I have run `python company_scraper.py` or similar to check code style & working
 - [ ] I have updated documentation (if necessary)
 - [ ] My code follows the project’s coding conventions
 - [ ] I have merged the latest `main` or `dev` branch
