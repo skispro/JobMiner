@@ -1,6 +1,6 @@
 # Tata Steel Job Scraper 🏭💼
 
-A Python-based web scraper that extracts job listings from the [Tata Steel Careers Portal](https://tatasteel.ripplehire.com/candidate/) using **Selenium** and saves them into structured JSON and CSV files.
+A Python-based web scraper that extracts job listings from the [Tata Steel Careers Portal](https://tatasteel.ripplehire.com/candidate/?token=kYAz91uy1lFDi6FeSiRZ&lang=en&source=CAREERSITE#list) using **Selenium** and saves them into structured JSON and CSV files.
 
 ## ✨ Features
 - Scrapes all available job listings from the Tata Steel careers portal.
@@ -16,13 +16,13 @@ A Python-based web scraper that extracts job listings from the [Tata Steel Caree
 
 ## 🛠️ Installation
 
-1. **Clone the repository**
+1. **Fork and Clone the repository**
    ```bash
-   git clone https://github.com/your-username/tatasteel-job-scraper.git
-   cd tatasteel-job-scraper
+   git clone https://github.com/your-username/JobMiner.git
+   cd scrapers/tatasteel
    ```
 
-2. **Set up a virtual environment (recommended)**
+2. **Set up a virtual environment (optional)**
    ```bash
    python -m venv venv
    source venv/bin/activate   # On Linux/Mac
@@ -33,3 +33,7 @@ A Python-based web scraper that extracts job listings from the [Tata Steel Caree
    ```bash
    pip install -r requirements.txt
    ```
+4. **Run the scrapper**
+  ```bash
+  python tatasteel.py
+  ```
