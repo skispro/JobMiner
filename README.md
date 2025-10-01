@@ -13,3 +13,9 @@ scrapers/
 │   │── another_company_readme.md
 │   │── requirements.txt
 ```
+
+---
+
+## Contributors ✨
+
+![Contributors Hall of Fame](https://github.aryansinghnegi.dev/?repo=beingvirus/JobMiner)
