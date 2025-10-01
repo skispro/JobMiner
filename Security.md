@@ -29,12 +29,21 @@ Instead, please follow these steps:
 
 ## 🔐 Security Best Practices
 
-To help keep the Foodie app and its users secure, please follow these best practices:
+To help keep the JobMiner app and its users secure, please follow these best practices during development and deployment:
 
-- Never share sensitive credentials or API keys in public repositories.
-- Use environment variables to store secrets and tokens.
-- Always run the latest version of dependencies.
-- Perform regular audits using tools like `npm audit` or `yarn audit`.
+- Never share sensitive credentials, API keys, or database passwords openly in public repositories.
+
+- Use environment variables (e.g., via .env files with python-dotenv) to securely manage secrets and tokens.
+
+- Always run the latest supported versions of dependencies and Python itself to benefit from security patches.
+
+- Perform regular security audits using tools such as bandit for Python code security analysis and safety to detect vulnerable dependencies.
+
+- Implement proper error handling to avoid exposing sensitive information in logs or error messages.
+
+- Use proxies and rotate IP addresses when scraping to avoid IP blocking and reduce chances of detection.
+
+- Use realistic user-agent strings and consider headless browser approaches to mimic human browsing behavior.
 
 ---
 
@@ -44,7 +53,7 @@ This security policy applies to:
 
 - The source code in this repository
 - Configuration files
-- Dependencies defined in `package.json`
+- Dependencies defined in `requirements.txt`
 
 **Note:** Issues related to third-party services or APIs used by the app (e.g., payment gateways, external APIs) should be reported to those service providers.
 
