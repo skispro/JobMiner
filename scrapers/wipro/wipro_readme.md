@@ -1,6 +1,6 @@
-# Remote OK Scraper
+# Wipro Scraper
 
-This scraper fetches remote Python jobs from [Remote OK](https://remoteok.io).
+This scraper fetches jobs from [Wipro](https://careers.wipro.com/search?searchResultView=LIST&pageNumber=1).
 
 ## How it works
 
@@ -10,4 +10,4 @@ This scraper fetches remote Python jobs from [Remote OK](https://remoteok.io).
 ```bash
 pip install -r requirements.txt
 python wipro.py
-``
+```
