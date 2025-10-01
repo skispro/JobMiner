@@ -149,6 +149,8 @@ JobMiner automatically creates `jobminer_config.json` with default settings:
 }
 ```
 
+## feature/complete-jobminer-toolkit
+
 ## 💾 Database Integration
 
 Enable database storage for persistent job data:
@@ -262,3 +264,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Happy Job Mining! 🎯**
 
 *Made with ❤️ by the open-source community*
+=======
+---
+
+## Contributors ✨
+
+![Contributors Hall of Fame](https://github.aryansinghnegi.dev/?repo=beingvirus/JobMiner)
