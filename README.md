@@ -269,4 +269,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contributors ✨
 
-![Contributors Hall of Fame](https://github.aryansinghnegi.dev/?repo=beingvirus/JobMiner)
+![Contributors Hall of Fame](https://contrib.rocks/image?repo=beingvirus/JobMiner)
