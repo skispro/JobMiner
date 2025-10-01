@@ -1,102 +1,177 @@
+"""
+Reliance Scraper for JobMiner.
+
+This scraper extracts job listings from Reliance careers website.
+"""
+
+import sys
+import os
+from typing import List, Optional
+from urllib.parse import urljoin, quote
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import pandas as pd
 import time
 
-BASE_URL = "https://careers.ril.com/rilcareers/frmJobSearch.aspx"
+# Add parent directory to path to import base_scraper
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+from base_scraper import BaseScraper, JobListing
 
-def init_driver():
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    return webdriver.Chrome(options=options)
+class RelianceScraper(BaseScraper):
+    """
+    Reliance job scraper using Selenium.
+    """
+    
+    def __init__(self, delay: float = 2.0):
+        """Initialize the Reliance scraper."""
+        super().__init__(delay=delay)
+        self.base_url = "https://careers.ril.com"
+        self.search_url = f"{self.base_url}/rilcareers/frmJobSearch.aspx"
+        self.driver = None
+    
+    def _init_driver(self):
+        """Initialize Selenium WebDriver."""
+        if self.driver is None:
+            options = webdriver.ChromeOptions()
+            options.add_argument("--headless=new")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+            self.driver = webdriver.Chrome(options=options)
+        return self.driver
+    
+    def _close_driver(self):
+        """Close Selenium WebDriver."""
+        if self.driver:
+            self.driver.quit()
+            self.driver = None
 
-def scrape_jobs(driver):
-    driver.get(BASE_URL)
-    jobs = []
-
-    while True:
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "MainContent_rgJobs"))
-        )
-
-        rows = driver.find_elements(By.CSS_SELECTOR, "#MainContent_rgJobs tbody tr")
-        for row in rows[:-1]:
-            cols = row.find_elements(By.TAG_NAME, "td")
-            if len(cols) < 5:
-                continue
-            job = {
-                "Title": cols[1].text.strip(),
-                "Link": cols[1].find_element(By.TAG_NAME, "a").get_attribute("href"),
-                "Functional Area": cols[2].text.strip(),
-                "Location": cols[3].text.strip(),
-                "Posted On": cols[4].text.strip(),
-            }
-            jobs.append(job)
-
+    def get_job_urls(self, search_term: str, location: str = "", max_pages: int = 1) -> List[str]:
+        """
+        Get job URLs from Reliance search results.
+        """
+        driver = self._init_driver()
+        job_urls = []
+        
         try:
-            next_btn = driver.find_element(By.ID, "MainContent_rgJobs_lnkNext")
-            if "aspNetDisabled" in next_btn.get_attribute("class"):
-                break
-            next_btn.click()
-            time.sleep(2)
-        except:
-            break
+            driver.get(self.search_url)
+            
+            # Wait for the jobs table to load
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.ID, "MainContent_rgJobs"))
+            )
+            
+            pages_scraped = 0
+            while pages_scraped < max_pages:
+                # Get job links from current page
+                rows = driver.find_elements(By.CSS_SELECTOR, "#MainContent_rgJobs tbody tr")
+                
+                for row in rows[:-1]:  # Skip last row (pagination)
+                    cols = row.find_elements(By.TAG_NAME, "td")
+                    if len(cols) >= 5:
+                        try:
+                            link_elem = cols[1].find_element(By.TAG_NAME, "a")
+                            job_url = link_elem.get_attribute("href")
+                            if job_url:
+                                job_urls.append(job_url)
+                        except:
+                            continue
+                
+                pages_scraped += 1
+                
+                # Try to go to next page
+                if pages_scraped < max_pages:
+                    try:
+                        next_btn = driver.find_element(By.ID, "MainContent_rgJobs_lnkNext")
+                        if "aspNetDisabled" in next_btn.get_attribute("class"):
+                            break
+                        next_btn.click()
+                        time.sleep(self.delay)
+                    except:
+                        break
+            
+        except Exception as e:
+            self.logger.error(f"Error getting job URLs: {e}")
+        
+        return job_urls
 
-    return jobs
+    def parse_job(self, job_url: str) -> Optional[JobListing]:
+        """
+        Parse a single job listing from Reliance.
+        """
+        driver = self._init_driver()
+        
+        try:
+            driver.get(job_url)
+            
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "contentarea"))
+            )
+            
+            # Extract job details
+            title = driver.find_element(By.ID, "MainContent_lblJobTitle").text.strip()
+            posted_date = driver.find_element(By.ID, "MainContent_lblPostedDate").text.strip()
+            location = driver.find_element(By.ID, "MainContent_lblLoc").text.strip()
+            responsibilities = driver.find_element(By.ID, "MainContent_lblSummRole").text.strip()
+            education_req = driver.find_element(By.ID, "MainContent_lblEduReq").text.strip()
+            experience_req = driver.find_element(By.ID, "MainContent_lblExpReq").text.strip()
+            
+            # Build description
+            description = f"Responsibilities: {responsibilities}\n\nEducation Requirements: {education_req}\n\nExperience Requirements: {experience_req}"
+            
+            # Extract skills
+            skills_list = []
+            try:
+                skills_table = driver.find_elements(By.CSS_SELECTOR, "table.MsoTableGrid tbody tr")[1:]
+                for row in skills_table:
+                    cols = row.find_elements(By.TAG_NAME, "td")
+                    if len(cols) >= 2:
+                        skill_name = cols[0].text.strip()
+                        skill_rating = cols[1].text.strip()
+                        skills_list.append(f"{skill_name} ({skill_rating})")
+            except:
+                pass
+            
+            job = JobListing(
+                title=title,
+                company="Reliance Industries Limited",
+                location=location,
+                description=description,
+                posted_date=posted_date,
+                job_url=job_url,
+                experience_level=", ".join(skills_list) if skills_list else None
+            )
+            
+            return job
+            
+        except Exception as e:
+            self.logger.error(f"Error parsing job {job_url}: {e}")
+            return None
+    
+    def scrape_jobs(self, search_term: str, location: str = "", max_pages: int = 1) -> List[JobListing]:
+        """Override to ensure driver cleanup."""
+        try:
+            jobs = super().scrape_jobs(search_term, location, max_pages)
+            return jobs
+        finally:
+            self._close_driver()
 
-def scrape_job_details(driver, job_url):
-    driver.get(job_url)
-    job_data = {}
+def main():
+    """Test the scraper."""
+    scraper = RelianceScraper()
+    
+    jobs = scraper.scrape_jobs(
+        search_term="engineer",
+        location="mumbai",
+        max_pages=1
+    )
+    
+    print(f"Found {len(jobs)} jobs")
+    
+    if jobs:
+        scraper.save_to_json(jobs, "reliance_jobs.json")
+        scraper.save_to_csv(jobs, "reliance_jobs.csv")
 
-    try:
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "contentarea"))
-        )
-
-        job_data["Title"] = driver.find_element(By.ID, "MainContent_lblJobTitle").text.strip()
-        job_data["Posted Date"] = driver.find_element(By.ID, "MainContent_lblPostedDate").text.strip()
-        job_data["Function/Business Area"] = driver.find_element(By.ID, "MainContent_lblSec").text.strip()
-        job_data["Location"] = driver.find_element(By.ID, "MainContent_lblLoc").text.strip()
-        job_data["Responsibilities"] = driver.find_element(By.ID, "MainContent_lblSummRole").text.strip()
-        job_data["Education Requirement"] = driver.find_element(By.ID, "MainContent_lblEduReq").text.strip()
-        job_data["Experience Requirement"] = driver.find_element(By.ID, "MainContent_lblExpReq").text.strip()
-
-        # Skills table
-        skills_table = driver.find_elements(By.CSS_SELECTOR, "table.MsoTableGrid tbody tr")[1:]
-        skills_list = []
-        for row in skills_table:
-            cols = row.find_elements(By.TAG_NAME, "td")
-            if len(cols) >= 2:
-                skill_name = cols[0].text.strip()
-                skill_rating = cols[1].text.strip()
-                skills_list.append(f"{skill_name} ({skill_rating})")
-        job_data["Skills & Competencies"] = ", ".join(skills_list)
-
-    except Exception as e:
-        print(f"Failed to scrape {job_url}: {e}")
-
-    return job_data
 
 if __name__ == "__main__":
-    driver = init_driver()
-
-    print("🚀 Scraping job listings...")
-    jobs_list = scrape_jobs(driver)
-    print(f"✅ Found {len(jobs_list)} jobs.")
-
-    all_jobs_details = []
-    for job in jobs_list:
-        print(f"🔍 Scraping details for: {job['Title']}")
-        details = scrape_job_details(driver, job["Link"])
-        all_jobs_details.append(details)
-        time.sleep(1)
-
-    driver.quit()
-
-    df = pd.DataFrame(all_jobs_details)
-    df.to_csv("ril_all_jobs_details.csv", index=False, encoding="utf-8-sig")
-    print(f"🎉 Scraping completed, saved {len(all_jobs_details)} jobs to ril_all_jobs_details.csv")
+    main()
