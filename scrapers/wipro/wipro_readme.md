@@ -4,7 +4,7 @@ This scraper fetches jobs from [Wipro](https://careers.wipro.com/search?searchRe
 
 ## How it works
 
-- Uses the Wipro api to get current Python job listings.
+- Uses the Wipro api to get current job listings.
 - Returns job title, company, experience, description, posting start date and link.
 
 ```bash
